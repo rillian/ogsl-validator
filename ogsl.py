@@ -7,8 +7,10 @@ line with the nominal sign name, and ends with `@end sign`.
 In between is an `@ucode` line with the unicode codepoint,
 and `@v` lines giving different readings.'''
 
-from logging import debug, info, warning, error
+import logging
 import re
+
+from logging import debug, info, warning, error
 
 class OgslSign:
     def __init__(self, name=''):
@@ -93,14 +95,28 @@ def parse_asl(fp):
 if __name__ == '__main__':
     import argparse
 
-    ap = argparse.ArgumentParser()
+    ap = argparse.ArgumentParser(description='Parse and validate a sign list database in asl format.')
     ap.add_argument('filename', help='asl sign list to verify')
+    ap.add_argument('-v', '--verbose',
+            help='more information about progress and status',
+            action='store_true')
+    ap.add_argument('--log', nargs='?', default='info',
+            help='set level of logging output')
     args = ap.parse_args()
+
+    log_level = logging.WARNING
+    if args.verbose:
+        log_level = logging.INFO
+    if args.log:
+        log_level = args.log.upper()
+    logging.basicConfig(level=log_level)
 
     signs = []
     with open(args.filename) as f:
         for sign in parse_asl(f):
             signs.append(sign)
+            if args.verbose:
+                print(sign)
 
     print(f'Parsed {len(signs)} signs.')
 
