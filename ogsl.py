@@ -91,18 +91,17 @@ def parse_asl(fp):
                 
 
 if __name__ == '__main__':
-    count = 0
+    signs = []
     out_of_unicode = 0
     no_values = 0
     with open('ogsl.asl') as f:
         for sign in parse_asl(f):
-            print(sign)
-            count += 1
+            signs.append(sign)
             if not sign.sign:
                 out_of_unicode += 1
             if not sign.values:
                 no_values += 1
-    print(f'Parsed {count} signs.')
+    print(f'Parsed {len(signs)} signs.')
     if out_of_unicode:
         print(f'  {out_of_unicode} where out of Unicode.')
     if no_values:
