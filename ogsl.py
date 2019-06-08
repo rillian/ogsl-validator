@@ -53,7 +53,7 @@ def parse_asl(fp):
         line = line.strip()
         if not line:
             continue
-        info(line)
+        debug(line)
         if line.startswith('@sign'):
             name = rest_of(line)
             sign = OgslSign(name)
