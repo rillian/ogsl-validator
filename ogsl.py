@@ -7,6 +7,7 @@ line with the nominal sign name, and ends with `@end sign`.
 In between is an `@ucode` line with the unicode codepoint,
 and `@v` lines giving different readings.'''
 
+from logging import debug, info, warning, error
 import re
 
 class OgslSign:
@@ -37,9 +38,9 @@ ucode_pattern = re.compile(r'x?([0-9a-fA-F]+)')
 
 def ucode_to_char(code):
     '''Convert a ucode value from a hex representation to a string.'''
-    print(f'Checking {code} against {ucode_pattern}')
+    debug(f'Checking {code} against {ucode_pattern}')
     match = re.match(ucode_pattern, code)
-    print(f'  {match}')
+    debug(f'  {match}')
     if match:
         return chr(int(match[1], 16))
     else:
@@ -52,14 +53,14 @@ def parse_asl(fp):
         line = line.strip()
         if not line:
             continue
-        print(f' info: {line}')
+        info(line)
         if line.startswith('@sign'):
             name = rest_of(line)
             sign = OgslSign(name)
         elif line.startswith('@end sign'):
             yield sign
         elif line.startswith('@end'):
-            print(f'ERROR: unrecognized @end: {line}')
+            error(f'unrecognized @end: {line}')
         elif line.startswith('@ucode'):
             codes = rest_of(line).split('.')
             sign.sign = '.'.join(map(ucode_to_char, codes))
@@ -86,7 +87,7 @@ def parse_asl(fp):
         elif line.startswith('@pname'):
             continue
         else:
-            print(f' warn: unrecognized line: {line}')
+            warning(f'unrecognized line: {line}')
                 
 
 if __name__ == '__main__':
