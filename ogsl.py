@@ -63,7 +63,7 @@ def parse_asl(fp):
             error(f'unrecognized @end: {line}')
         elif line.startswith('@ucode'):
             codes = rest_of(line).split('.')
-            sign.sign = '.'.join(map(ucode_to_char, codes))
+            sign.sign = ''.join(map(ucode_to_char, codes))
         elif line.startswith('@v'):
             items = line.split(maxsplit=2)
             sign.values.append(items[1])
