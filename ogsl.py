@@ -14,7 +14,7 @@ class OgslSign:
     def __init__(self, name=''):
         self.name = name
         self.lists = []
-        self.sign = '?'
+        self.sign = ''
         self.values = []
         self.fake = False
 
@@ -98,7 +98,7 @@ if __name__ == '__main__':
         for sign in parse_asl(f):
             print(sign)
             count += 1
-            if sign.sign == '?':
+            if not sign.sign:
                 out_of_unicode += 1
             if not sign.values:
                 no_values += 1
