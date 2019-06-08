@@ -25,7 +25,8 @@ class OgslSign:
         s = f'{self.name} {self.sign}'
         if self.lists:
             s += f' ({" ".join(self.lists)})'
-        s += f'\n  {" ".join(self.values)}'
+        if self.values:
+            s += f'  {" ".join(self.values)}'
         return s
 
 
