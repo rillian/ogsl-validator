@@ -91,8 +91,14 @@ def parse_asl(fp):
                 
 
 if __name__ == '__main__':
+    import argparse
+
+    ap = argparse.ArgumentParser()
+    ap.add_argument('filename', help='asl sign list to verify')
+    args = ap.parse_args()
+
     signs = []
-    with open('ogsl.asl') as f:
+    with open(args.filename) as f:
         for sign in parse_asl(f):
             signs.append(sign)
 
